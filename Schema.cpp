@@ -3,31 +3,52 @@
 //
 #include "factory/factoryinclude.h"
 #include "Schema.h"
-
+#include "factory/factoryinclude.h"
 void Schema::run() const {
-    std::vector<MonsterFactory*> creators;
 
-    Monster1Factory creatorMonster1;
-    Monster2Factory creatorMonster2;
-    Monster3Factory creatorMonster3;
-
-    creators.push_back(&creatorMonster1);
-    creators.push_back(&creatorMonster2);
-    creators.push_back(&creatorMonster3);
 
     // 0 - easy , 1 hard o_O
     constexpr int l_nMonsterTypes = 3;
 
-    size_t monster_count = difficulty == 1 ? 10 : 4;
+    MonsterFactory* factory;
 
-    std::vector<IEntity*> levelMonsters;
+    switch (difficulty)
+    {
+        case 1:{
+            factory = new EasyFactory();
+            break;
+        }
+        case 2: {
+            factory = new HardFactory();
+            break;
+        }
 
-    for(size_t i = 0 ; i < monster_count; ++ i){
-        int randomPos = randNum() % l_nMonsterTypes;
-
-        levelMonsters.push_back(creators.at(randomPos)->CreateMonster());
+        default: {
+            factory = new EasyFactory();
+            break;
+        }
     }
 
 
-    auto p1 = new Player(50,10,"Test");
+    std::vector<IEntity*> levelMonsters;
+
+    size_t nMobCount = difficulty == 0 ? 10 : 20;
+
+    for(size_t i = 0 ; i < nMobCount ; ++i )
+        levelMonsters.push_back(factory->CreateMonster());
+
+    IEntity* currentMonster;
+
+    auto p1 = new Player(500,15,"Test");
+
+    size_t it = 0;
+    while(p1->IsAlive() && it  < levelMonsters.size()) {
+        currentMonster = levelMonsters.at(it);
+
+        p1->Attack(*currentMonster);
+        if(currentMonster->IsAlive())
+            currentMonster->Attack(*p1);
+        else
+            ++it;
+    }
 }

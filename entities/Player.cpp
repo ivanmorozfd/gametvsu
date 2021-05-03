@@ -41,7 +41,7 @@ bool Player::IsAlive() const {
 }
 
 void Player::Attack(IEntity &other) {
-    std::cout << "\nPlayer with name "
+    std::cout << "\n\nPlayer with name "
                 << GetName()
                 << " Attacks Monster with name "
                 << other.GetName();

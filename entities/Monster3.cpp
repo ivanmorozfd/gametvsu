@@ -3,16 +3,21 @@
 //
 
 #include "Monster3.h"
+static size_t s_nAttackCount = 0 ;
 
 Monster3::Monster3(const std::string &name, int health, int damage) : BaseMonster(name, health, damage) {}
 
 void Monster3::Attack(IEntity &other) {
-    std::cout << "\nMonster3 with name "
+    std::cout << "\n\nMonster3 with name "
               << GetName()
               << " Attacks Player with name "
               << other.GetName();
 
-    const auto monster_damage = GetDamage();
+
+    const auto monster_damage = s_nAttackCount == 2  ?  GetDamage()  : 0;
+
+    if(s_nAttackCount == 2 )
+        s_nAttackCount = 0;
 
     std::cout << " And deal "
               << monster_damage
@@ -20,8 +25,8 @@ void Monster3::Attack(IEntity &other) {
 
     other.ReduceHealth(monster_damage);
 
-    std::cout <<"\nCurrent Player health points "
+    std::cout << "\nMob health points "
               << GetHealth()
-              << " Mob health points "
+              << "\nCurrent Player health points "
               << other.GetHealth();
 }

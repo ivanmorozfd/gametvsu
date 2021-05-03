@@ -7,6 +7,7 @@
 
 #include "IEntity.h"
 
+
 class BaseMonster : public virtual IEntity {
 public:
     std::string _name;

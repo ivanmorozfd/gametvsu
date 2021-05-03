@@ -5,21 +5,24 @@
 #include "Monster2.h"
 
 void Monster2::Attack(IEntity &other) {
-    std::cout << "\nMonster2 with name "
+    std::cout << "\n\nMonster2 with name "
               << GetName()
               << " Attacks Player with name "
               << other.GetName();
 
+
+
     const auto player_damage = GetDamage();
+
     std::cout << " And deal "
               << player_damage
               << " Damage";
 
     other.ReduceHealth(player_damage);
 
-    std::cout <<"\nCurrent Player health points "
+    std::cout << "\nMob health points "
               << GetHealth()
-              << " Mob health points "
+              << "\nCurrent Player health points "
               << other.GetHealth();
 }
 
